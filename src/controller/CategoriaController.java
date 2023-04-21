@@ -25,7 +25,7 @@ public class CategoriaController {
 		return this.categoriaDAO.buscarPorId(id);
 	}
 	
-	public Categoria buscarPorNome(String nome) {
+	public Integer buscarPorNome(String nome) {
 		return this.categoriaDAO.buscarPorNome(nome);
 	}
 	

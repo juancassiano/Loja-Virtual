@@ -8,6 +8,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 
 import modelo.Categoria;
 import modelo.Produto;
@@ -17,34 +18,13 @@ import modelo.Produto;
 public class ProdutoDAO {
 
 	private Connection connection;
-	
+
+
 	public ProdutoDAO(Connection connection) {
 		this.connection = connection;
+		
 	}
 	
-	public void salvar(Produto produto) {
-
-		
-		String sql = "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO) VALUES (?,?,?)";
-		
-		try(PreparedStatement pstm = connection.prepareStatement(sql, Statement.RETURN_GENERATED_KEYS)){
-			
-			pstm.setString(1, produto.getNome());
-			pstm.setString(2, produto.getDescricao());
-			pstm.setBigDecimal(3, produto.getPreco());
-//			pstm.setInt(4, produto.getCategoria().getId());
-			
-			pstm.execute();
-			
-			try(ResultSet rst = pstm.getGeneratedKeys()){
-				while(rst.next()) {
-					produto.setId(rst.getInt(1));
-				}
-			}
-		} catch(SQLException e) {
-			throw new RuntimeException(e);
-		}
-	}
 
 	public List<Produto> listar(){
 		List<Produto> produtos = new ArrayList<>();
@@ -64,7 +44,8 @@ public class ProdutoDAO {
 		}
 	}
 	
-	public void salvarComCategoria(Produto produto) {
+	public void salvar(Produto produto) {
+		CategoriaDAO categoriaDao = new CategoriaDAO(connection);
 		try {
 			String sql = "INSERT INTO PRODUTO (NOME, DESCRICAO, PRECO, CATEGORIA_ID) VALUES (?,?,?,?)";
 			
@@ -72,8 +53,17 @@ public class ProdutoDAO {
 				pstm.setString(1, produto.getNome());
 				pstm.setString(2, produto.getDescricao());
 				pstm.setBigDecimal(3, produto.getPreco());
-				pstm.setInt(4, produto.getCategoria().getId());
+				Optional<Categoria> categorias = categoriaDao.listar().stream().filter(ct -> ct.getNome().equals(produto.getCategoria()
+						.getNome()))
+						.findFirst();
 				
+				if(categorias.isPresent()) {
+					Categoria categoria = categorias.get();
+					pstm.setInt(4, categoria.getId());
+				}else {
+					throw new RuntimeException("Categoria não encontrada");
+				}
+						
 				pstm.execute();
 				
 				try(ResultSet rst = pstm.getGeneratedKeys()){

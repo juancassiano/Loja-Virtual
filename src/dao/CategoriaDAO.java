@@ -61,7 +61,7 @@ public class CategoriaDAO {
 		}
 	}
 	
-public Categoria buscarPorNome(String nome) {
+public Integer buscarPorNome(String nome) {
 		
 		String sql = "SELECT ID, NOME FROM CATEGORIA WHERE nome = ?";
         Categoria categoria = null;
@@ -73,12 +73,15 @@ public Categoria buscarPorNome(String nome) {
 					int categoriaId = rst.getInt("id");
                     String nomeCategoria = rst.getString("nome");
                     categoria = new Categoria(categoriaId, nomeCategoria);
+                    
+                    
 				}
 			}
-			return categoria;
 
-		}catch(SQLException e) {
-			throw new RuntimeException(e);
+			return categoria.getId();
+
+		}catch(RuntimeException | SQLException e) {
+			throw new RuntimeException("Categoria inexistente, favor cadastrar nova categoria antes de produto.");
 		}
 	}
 	

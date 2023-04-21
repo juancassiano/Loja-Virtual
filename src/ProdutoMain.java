@@ -15,7 +15,7 @@ public class ProdutoMain {
 		try(Scanner scan = new Scanner(System.in)){;
 		
 			System.out.println("Digite 1 para listar Produtos | 2 para Cadastrar Produto | 3 para alterar Produto |"
-					+ "4 para deletar Produto | 5 para Listar Categorias");
+					+ "4 para deletar Produto | 5 para Listar Categorias | 6 para criar Categoria");
 			int entrada = scan.nextInt();
 			String nome;
 			String descricao;
@@ -30,19 +30,21 @@ public class ProdutoMain {
 				break;
 			
 			case 2:
+				scan.nextLine();
 				System.out.println("Digite o nome do produto:");
-				nome = scan.next();
+				nome = scan.nextLine();
 				System.out.println("Digite o preço do produto:");
 				preco = scan.nextBigDecimal();
+				scan.nextLine();
 				System.out.println("Digite a descrição do produto:");
-				descricao = scan.next();
+				descricao = scan.nextLine();
 				System.out.println("Digite o nome da categoria");
-				nomeCategoria = scan.next();
+				nomeCategoria = scan.nextLine();
+
 				categoria = new Categoria(nomeCategoria);
 				categoriaController.buscarPorNome(nomeCategoria);
 				
 				Produto produto = new Produto(nome, descricao,preco,categoria);
-				produto.getCategoria().getId();
 				produtoController.salvar(produto);
 				System.out.println("Produto " + nome + " salvo");
 				break;
@@ -51,14 +53,14 @@ public class ProdutoMain {
 				System.out.println("Digite o id do produto para alterar:");
 				id = scan.nextInt();
 				System.out.println("Digite o nome do novo produto:");
-				nome = scan.next();
+				nome = scan.nextLine();
 				System.out.println("Digite a descrição do produto:");
-				descricao = scan.next();
+				descricao = scan.nextLine();
 				System.out.println("Digite o novo preço:");
 				preco = scan.nextBigDecimal();
 			
 				produtoController.alterar(nome, descricao, preco,id);
-				System.out.println("Produto " + " alterado");
+				System.out.println("Produto " + nome + " alterado");
 
 				break;
 			
@@ -71,6 +73,13 @@ public class ProdutoMain {
 			
 			case 5:
 				System.out.println(categoriaController.listar());
+				break;
+				
+			case 6:
+				System.out.println("Digite o nome da categoria:");
+				nome = scan.next();
+				categoria = new Categoria(nome);
+				categoriaController.salvar(categoria);
 				break;
 			
 			default:
