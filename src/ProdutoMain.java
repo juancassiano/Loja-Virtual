@@ -24,6 +24,7 @@ public class ProdutoMain {
 			switch (escolha) {
 			case 0:
 				ListarProdutos listarProdutos = new ListarProdutos();
+				listarProdutos.setVisible(true);
 				break;
 			case 1:
 				CadastrarProduto cadastrarProduto = new CadastrarProduto();
