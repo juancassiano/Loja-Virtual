@@ -29,6 +29,10 @@ public class CategoriaController {
 		return this.categoriaDAO.buscarPorNome(nome);
 	}
 	
+	public Categoria buscarPorNomeRetornaCategoria(String nome) {
+		return this.categoriaDAO.buscarPorNomeRetornaCategoria(nome);
+	}
+	
 	public void salvar(Categoria categoria) {
 		this.categoriaDAO.salvar(categoria);
 	}

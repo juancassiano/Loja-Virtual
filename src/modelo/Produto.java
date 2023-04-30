@@ -39,6 +39,7 @@ public class Produto {
 		this.descricao = descricao;
 		this.setPreco(preco);
 	}
+	
 	public String getNome() {
 		return nome;
 	}
@@ -49,6 +50,10 @@ public class Produto {
 
 	public void setId(Integer id) {
 		this.id = id;
+	}
+	
+	public int getId() {
+		return id;
 	}
 
 	public Categoria getCategoria() {

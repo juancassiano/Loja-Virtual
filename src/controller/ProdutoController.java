@@ -6,6 +6,7 @@ import java.util.List;
 
 import dao.ProdutoDAO;
 import jdbc.ConnectionFactory;
+import modelo.Categoria;
 import modelo.Produto;
 
 public class ProdutoController {
@@ -20,16 +21,21 @@ public class ProdutoController {
 		this.produtoDAO.salvar(produto);
 	}
 	
-	public List<Produto> listar(){
-		return this.produtoDAO.listar();
-	}
-	
+		public List<Produto> listar(){
+			return this.produtoDAO.listar();
+		}
+		
 	public void deletar(Integer id) {
 		this.produtoDAO.deletarPorId(id);
 	}
 	
 	public void alterar(String nome, String descricao, BigDecimal preco, Integer id) {
 		this.produtoDAO.alterar(nome, descricao, preco, id);
+	}
+	
+	public List<Produto> buscarProduto(Categoria categoria) {
+		return this.produtoDAO.buscar(categoria);
+		
 	}
 	
 	

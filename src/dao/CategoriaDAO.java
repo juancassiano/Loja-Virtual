@@ -101,4 +101,30 @@ public Integer buscarPorNome(String nome) {
 		}
 
 	}
+	
+	
+	
+public Categoria buscarPorNomeRetornaCategoria(String nome) {
+		
+		String sql = "SELECT ID, NOME FROM CATEGORIA WHERE nome = ?";
+        Categoria categoria = null;
+		try (PreparedStatement pstm = connection.prepareStatement(sql)){
+			pstm.setString(1, nome);
+			
+			try(ResultSet rst = pstm.executeQuery()){
+				while(rst.next()) {
+					int categoriaId = rst.getInt("id");
+                    String nomeCategoria = rst.getString("nome");
+                    categoria = new Categoria(categoriaId, nomeCategoria);
+                    
+                    
+				}
+			}
+
+			return categoria;
+
+		}catch(RuntimeException | SQLException e) {
+			throw new RuntimeException("Categoria inexistente, favor cadastrar nova categoria antes de produto.");
+		}
+	}
 }
